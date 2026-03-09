@@ -307,6 +307,11 @@
       scroll-snap-align:start;
       user-select:none;
     }
+    @media (max-width: 760px){
+      .carousel-track{
+        grid-auto-columns:100%;
+      }
+    }
     .item strong{display:block; font-size:13px; margin-bottom:5px}
     .item small{display:block; color:var(--muted); font-size:12px; line-height:1.65}
 
@@ -418,8 +423,37 @@
       margin-top: 14px;
     }
 
+    .portfolio-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .cards.cards-carousel{
+      margin-top:12px;
+      grid-template-columns:none;
+      grid-auto-flow:column;
+      grid-auto-columns: calc(50% - 7px);
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;
+      padding-bottom:6px;
+    }
+    .cards.cards-carousel .card{
+      scroll-snap-align:start;
+    }
+
+    @media (max-width: 900px){
+      .cards.cards-carousel{ grid-auto-columns:minmax(280px, 88%); }
+    }
+
     @media (max-width: 600px){
-      .cards{ grid-template-columns: 1fr; gap: 24px; }
+      .cards.cards-carousel{ grid-auto-columns:100%; }
+      .cards{ gap: 24px; }
     }
 
     .card{
@@ -751,8 +785,14 @@
               </div>
 
               <div class="portfolio" aria-label="Serviços Profissionais">
-                <div class="secTitle">Serviços Profissionais</div>
-                <div class="cards">
+                <div class="portfolio-head">
+                  <div class="secTitle">Serviços Profissionais</div>
+                  <div class="carousel-controls" aria-label="Navegação do carrossel de serviços profissionais">
+                    <button class="carousel-btn" type="button" data-carousel-prev="servicos-profissionais" aria-label="Serviço profissional anterior">‹</button>
+                    <button class="carousel-btn" type="button" data-carousel-next="servicos-profissionais" aria-label="Próximo serviço profissional">›</button>
+                  </div>
+                </div>
+                <div class="cards cards-carousel" id="servicos-profissionais">
 
                   <div class="card card-devops">
                     <div class="card-top">
@@ -1062,45 +1102,18 @@
         track.classList.remove('is-dragging');
       };
 
-      if (window.PointerEvent) {
-        track.addEventListener('pointerdown', (event) => {
-          if (event.pointerType === 'mouse' && event.button !== 0) return;
-          startDrag(event.clientX);
-        });
+      // No mobile: deixamos o scroll nativo por toque, que é mais estável em iOS/Android.
+      track.addEventListener('mousedown', (event) => {
+        if (event.button !== 0) return;
+        startDrag(event.clientX);
+      });
 
-        track.addEventListener('pointermove', (event) => {
-          moveDrag(event.clientX);
-        });
+      track.addEventListener('mousemove', (event) => {
+        moveDrag(event.clientX);
+      });
 
-        track.addEventListener('pointerup', endDrag);
-        track.addEventListener('pointercancel', endDrag);
-        track.addEventListener('pointerleave', endDrag);
-      } else {
-        track.addEventListener('touchstart', (event) => {
-          if (!event.touches.length) return;
-          startDrag(event.touches[0].clientX);
-        }, { passive: true });
-
-        track.addEventListener('touchmove', (event) => {
-          if (!event.touches.length) return;
-          moveDrag(event.touches[0].clientX);
-        }, { passive: true });
-
-        track.addEventListener('touchend', endDrag);
-        track.addEventListener('touchcancel', endDrag);
-
-        track.addEventListener('mousedown', (event) => {
-          if (event.button !== 0) return;
-          startDrag(event.clientX);
-        });
-
-        track.addEventListener('mousemove', (event) => {
-          moveDrag(event.clientX);
-        });
-
-        track.addEventListener('mouseup', endDrag);
-        track.addEventListener('mouseleave', endDrag);
-      }
+      track.addEventListener('mouseup', endDrag);
+      track.addEventListener('mouseleave', endDrag);
     });
   </script>
 </body>
