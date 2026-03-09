@@ -1059,19 +1059,45 @@
         track.classList.remove('is-dragging');
       };
 
-      track.addEventListener('pointerdown', (event) => {
-        if (event.pointerType === 'mouse' && event.button !== 0) return;
-        startDrag(event.clientX);
-        track.setPointerCapture?.(event.pointerId);
-      });
+      if (window.PointerEvent) {
+        track.addEventListener('pointerdown', (event) => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          startDrag(event.clientX);
+        });
 
-      track.addEventListener('pointermove', (event) => {
-        moveDrag(event.clientX);
-      });
+        track.addEventListener('pointermove', (event) => {
+          moveDrag(event.clientX);
+        });
 
-      track.addEventListener('pointerup', endDrag);
-      track.addEventListener('pointercancel', endDrag);
-      track.addEventListener('pointerleave', endDrag);
+        track.addEventListener('pointerup', endDrag);
+        track.addEventListener('pointercancel', endDrag);
+        track.addEventListener('pointerleave', endDrag);
+      } else {
+        track.addEventListener('touchstart', (event) => {
+          if (!event.touches.length) return;
+          startDrag(event.touches[0].clientX);
+        }, { passive: true });
+
+        track.addEventListener('touchmove', (event) => {
+          if (!event.touches.length) return;
+          moveDrag(event.touches[0].clientX);
+        }, { passive: true });
+
+        track.addEventListener('touchend', endDrag);
+        track.addEventListener('touchcancel', endDrag);
+
+        track.addEventListener('mousedown', (event) => {
+          if (event.button !== 0) return;
+          startDrag(event.clientX);
+        });
+
+        track.addEventListener('mousemove', (event) => {
+          moveDrag(event.clientX);
+        });
+
+        track.addEventListener('mouseup', endDrag);
+        track.addEventListener('mouseleave', endDrag);
+      }
     });
   </script>
 </body>
