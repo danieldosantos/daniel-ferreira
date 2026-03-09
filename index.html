@@ -474,6 +474,24 @@
     .card-body strong{font-size:13.5px; font-weight:700;}
     .card-body small{color:var(--muted); font-size:12px; line-height:1.6}
 
+    .project-card{
+      margin-top: 16px;
+      border:1px solid var(--dash);
+      border-radius:16px;
+      overflow:hidden;
+      background: rgba(11,11,25,.52);
+    }
+    .project-card img{
+      width:100%;
+      display:block;
+      max-height: 260px;
+      object-fit: cover;
+      border-bottom:1px solid var(--dash);
+    }
+    .project-card .card-body{
+      padding:16px;
+    }
+
     .cta{
       margin-top: 56px;
       border-top:1px dashed var(--dash);
@@ -705,6 +723,26 @@
                     </div>
                   </div>
 
+                </div>
+
+                <div class="project-card" aria-label="Projeto de agente de IA para logística no WhatsApp">
+                  <img src="log.jpg" alt="Projeto de agentes de IA conversacionais para logística no WhatsApp" />
+                  <div class="card-body">
+                    <strong>Agentes de IA Conversacionais para Logística no WhatsApp</strong>
+                    <small>
+                      Desenvolvi um sistema de agentes de IA conversacionais para WhatsApp integrado aos processos operacionais de logística.
+                      A solução interpreta mensagens em linguagem natural (texto e áudio), consulta fretes reais em banco de dados,
+                      fornece informações de rota e clima via APIs externas e responde automaticamente aos motoristas e transportadoras
+                      de forma contextualizada.
+                      <br/><br/>
+                      A arquitetura foi construída com n8n para orquestração de workflows, Groq para interpretação de linguagem natural,
+                      PostgreSQL para persistência de dados, Redis para cache e filas, Evolution API para integração com WhatsApp
+                      e Docker para padronização e escalabilidade da infraestrutura.
+                      <br/><br/>
+                      O sistema reduz o tempo de atendimento, diminui erros operacionais e permite automatizar interações logísticas
+                      diretamente no WhatsApp, mantendo uma experiência rápida e profissional para motoristas e parceiros.
+                    </small>
+                  </div>
                 </div>
               </div>
 
