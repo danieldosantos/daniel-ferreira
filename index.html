@@ -423,8 +423,37 @@
       margin-top: 14px;
     }
 
+    .portfolio-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .cards.cards-carousel{
+      margin-top:12px;
+      grid-template-columns:none;
+      grid-auto-flow:column;
+      grid-auto-columns: calc(50% - 7px);
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;
+      padding-bottom:6px;
+    }
+    .cards.cards-carousel .card{
+      scroll-snap-align:start;
+    }
+
+    @media (max-width: 900px){
+      .cards.cards-carousel{ grid-auto-columns:minmax(280px, 88%); }
+    }
+
     @media (max-width: 600px){
-      .cards{ grid-template-columns: 1fr; gap: 24px; }
+      .cards.cards-carousel{ grid-auto-columns:100%; }
+      .cards{ gap: 24px; }
     }
 
     .card{
@@ -756,8 +785,14 @@
               </div>
 
               <div class="portfolio" aria-label="Serviços Profissionais">
-                <div class="secTitle">Serviços Profissionais</div>
-                <div class="cards">
+                <div class="portfolio-head">
+                  <div class="secTitle">Serviços Profissionais</div>
+                  <div class="carousel-controls" aria-label="Navegação do carrossel de serviços profissionais">
+                    <button class="carousel-btn" type="button" data-carousel-prev="servicos-profissionais" aria-label="Serviço profissional anterior">‹</button>
+                    <button class="carousel-btn" type="button" data-carousel-next="servicos-profissionais" aria-label="Próximo serviço profissional">›</button>
+                  </div>
+                </div>
+                <div class="cards cards-carousel" id="servicos-profissionais">
 
                   <div class="card card-devops">
                     <div class="card-top">
