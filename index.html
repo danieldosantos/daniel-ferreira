@@ -258,6 +258,44 @@
       background: rgba(11,11,25,.52);
       min-width:0;
     }
+    .carousel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .carousel-controls{display:flex; gap:8px}
+    .carousel-btn{
+      width:32px;
+      height:32px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background: rgba(11,11,25,.72);
+      color:var(--ink);
+      font-size:18px;
+      line-height:1;
+      cursor:pointer;
+    }
+    .carousel-btn:hover{
+      border-color: rgba(124,92,255,.55);
+      background: rgba(124,92,255,.2);
+    }
+    .carousel-track{
+      display:grid;
+      grid-auto-flow:column;
+      grid-auto-columns:minmax(250px, 1fr);
+      gap:10px;
+      overflow-x:auto;
+      scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;
+      padding-bottom:6px;
+      scrollbar-width:thin;
+      margin:0;
+      padding-left:0;
+      list-style:none;
+    }
+    .carousel-track .item{scroll-snap-align:start}
     .item strong{display:block; font-size:13px; margin-bottom:5px}
     .item small{display:block; color:var(--muted); font-size:12px; line-height:1.65}
 
@@ -637,8 +675,14 @@
 
               <div class="split">
                 <div>
-                  <div class="secTitle">Serviços</div>
-                  <ul class="list">
+                  <div class="carousel-head">
+                    <div class="secTitle">Serviços</div>
+                    <div class="carousel-controls" aria-label="Navegação do carrossel de serviços">
+                      <button class="carousel-btn" type="button" data-carousel-prev="servicos" aria-label="Serviço anterior">‹</button>
+                      <button class="carousel-btn" type="button" data-carousel-next="servicos" aria-label="Próximo serviço">›</button>
+                    </div>
+                  </div>
+                  <ul class="carousel-track" id="servicos">
                     <li class="item">
                       <strong>Infraestrutura e Suporte</strong>
                       <small>Organização de ambientes corporativos, suporte técnico operacional, manutenção de servidores, infraestrutura de redes, ambientes Linux/Windows e padronização de ambientes de TI.</small>
@@ -663,8 +707,14 @@
                 </div>
 
                 <div>
-                  <div class="secTitle">Experiência</div>
-                  <ul class="list">
+                  <div class="carousel-head">
+                    <div class="secTitle">Experiência</div>
+                    <div class="carousel-controls" aria-label="Navegação do carrossel de experiência">
+                      <button class="carousel-btn" type="button" data-carousel-prev="experiencias" aria-label="Experiência anterior">‹</button>
+                      <button class="carousel-btn" type="button" data-carousel-next="experiencias" aria-label="Próxima experiência">›</button>
+                    </div>
+                  </div>
+                  <ul class="carousel-track" id="experiencias">
                     <li class="item">
                       <strong>WNS Log — Desenvolvedor Front-End</strong>
                       <small>Desenvolvimento de interfaces com Blazor Server e Radzen, integração com APIs, validações de formulários, refatoração de código, otimização de usabilidade e colaboração com equipes de backend e UX/UI.</small>
@@ -949,5 +999,21 @@
       </div>
     </div>
   </div>
+  <script>
+    const scrollCarousel = (id, direction) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const step = Math.max(el.clientWidth * 0.85, 260);
+      el.scrollBy({ left: step * direction, behavior: 'smooth' });
+    };
+
+    document.querySelectorAll('[data-carousel-prev]').forEach((button) => {
+      button.addEventListener('click', () => scrollCarousel(button.dataset.carouselPrev, -1));
+    });
+
+    document.querySelectorAll('[data-carousel-next]').forEach((button) => {
+      button.addEventListener('click', () => scrollCarousel(button.dataset.carouselNext, 1));
+    });
+  </script>
 </body>
 </html>
