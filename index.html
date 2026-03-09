@@ -292,15 +292,21 @@
       padding-bottom:6px;
       scrollbar-width:thin;
       -webkit-overflow-scrolling:touch;
-      touch-action: auto;
+      touch-action: pan-x;
       overscroll-behavior-x: contain;
       margin:0;
       padding-left:0;
       list-style:none;
-
+      cursor:grab;
     }
-    .carousel-track{ user-select: none; }
-    .carousel-track .item{scroll-snap-align:start}
+    .carousel-track.is-dragging{
+      cursor:grabbing;
+      scroll-behavior:auto;
+    }
+    .carousel-track .item{
+      scroll-snap-align:start;
+      user-select:none;
+    }
     .item strong{display:block; font-size:13px; margin-bottom:5px}
     .item small{display:block; color:var(--muted); font-size:12px; line-height:1.65}
 
@@ -1032,6 +1038,70 @@
       button.addEventListener('click', () => scrollCarousel(button.dataset.carouselNext, 1));
     });
 
+    document.querySelectorAll('.carousel-track').forEach((track) => {
+      let isDragging = false;
+      let startX = 0;
+      let startScrollLeft = 0;
+
+      const startDrag = (clientX) => {
+        isDragging = true;
+        startX = clientX;
+        startScrollLeft = track.scrollLeft;
+        track.classList.add('is-dragging');
+      };
+
+      const moveDrag = (clientX) => {
+        if (!isDragging) return;
+        const distance = clientX - startX;
+        track.scrollLeft = startScrollLeft - distance;
+      };
+
+      const endDrag = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.classList.remove('is-dragging');
+      };
+
+      if (window.PointerEvent) {
+        track.addEventListener('pointerdown', (event) => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          startDrag(event.clientX);
+        });
+
+        track.addEventListener('pointermove', (event) => {
+          moveDrag(event.clientX);
+        });
+
+        track.addEventListener('pointerup', endDrag);
+        track.addEventListener('pointercancel', endDrag);
+        track.addEventListener('pointerleave', endDrag);
+      } else {
+        track.addEventListener('touchstart', (event) => {
+          if (!event.touches.length) return;
+          startDrag(event.touches[0].clientX);
+        }, { passive: true });
+
+        track.addEventListener('touchmove', (event) => {
+          if (!event.touches.length) return;
+          moveDrag(event.touches[0].clientX);
+        }, { passive: true });
+
+        track.addEventListener('touchend', endDrag);
+        track.addEventListener('touchcancel', endDrag);
+
+        track.addEventListener('mousedown', (event) => {
+          if (event.button !== 0) return;
+          startDrag(event.clientX);
+        });
+
+        track.addEventListener('mousemove', (event) => {
+          moveDrag(event.clientX);
+        });
+
+        track.addEventListener('mouseup', endDrag);
+        track.addEventListener('mouseleave', endDrag);
+      }
+    });
   </script>
 </body>
 </html>
