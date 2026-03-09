@@ -301,9 +301,12 @@
     }
     .carousel-track.is-dragging{
       cursor:grabbing;
+      scroll-behavior:auto;
+    }
+    .carousel-track .item{
+      scroll-snap-align:start;
       user-select:none;
     }
-    .carousel-track .item{scroll-snap-align:start}
     .item strong{display:block; font-size:13px; margin-bottom:5px}
     .item small{display:block; color:var(--muted); font-size:12px; line-height:1.65}
 
