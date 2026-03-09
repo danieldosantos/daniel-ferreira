@@ -307,6 +307,11 @@
       scroll-snap-align:start;
       user-select:none;
     }
+    @media (max-width: 760px){
+      .carousel-track{
+        grid-auto-columns:100%;
+      }
+    }
     .item strong{display:block; font-size:13px; margin-bottom:5px}
     .item small{display:block; color:var(--muted); font-size:12px; line-height:1.65}
 
@@ -1062,45 +1067,18 @@
         track.classList.remove('is-dragging');
       };
 
-      if (window.PointerEvent) {
-        track.addEventListener('pointerdown', (event) => {
-          if (event.pointerType === 'mouse' && event.button !== 0) return;
-          startDrag(event.clientX);
-        });
+      // No mobile: deixamos o scroll nativo por toque, que é mais estável em iOS/Android.
+      track.addEventListener('mousedown', (event) => {
+        if (event.button !== 0) return;
+        startDrag(event.clientX);
+      });
 
-        track.addEventListener('pointermove', (event) => {
-          moveDrag(event.clientX);
-        });
+      track.addEventListener('mousemove', (event) => {
+        moveDrag(event.clientX);
+      });
 
-        track.addEventListener('pointerup', endDrag);
-        track.addEventListener('pointercancel', endDrag);
-        track.addEventListener('pointerleave', endDrag);
-      } else {
-        track.addEventListener('touchstart', (event) => {
-          if (!event.touches.length) return;
-          startDrag(event.touches[0].clientX);
-        }, { passive: true });
-
-        track.addEventListener('touchmove', (event) => {
-          if (!event.touches.length) return;
-          moveDrag(event.touches[0].clientX);
-        }, { passive: true });
-
-        track.addEventListener('touchend', endDrag);
-        track.addEventListener('touchcancel', endDrag);
-
-        track.addEventListener('mousedown', (event) => {
-          if (event.button !== 0) return;
-          startDrag(event.clientX);
-        });
-
-        track.addEventListener('mousemove', (event) => {
-          moveDrag(event.clientX);
-        });
-
-        track.addEventListener('mouseup', endDrag);
-        track.addEventListener('mouseleave', endDrag);
-      }
+      track.addEventListener('mouseup', endDrag);
+      track.addEventListener('mouseleave', endDrag);
     });
   </script>
 </body>
