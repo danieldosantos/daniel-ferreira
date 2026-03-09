@@ -303,6 +303,11 @@
       min-width:0;
       transition: transform .18s ease, border-color .18s ease;
     }
+
+    .contact:focus-visible{
+      outline: 2px solid rgba(124,92,255,.7);
+      outline-offset: 2px;
+    }
     .contact:hover{
       transform: translateY(-2px);
       border-color: rgba(124,92,255,.45);
@@ -324,20 +329,9 @@
     .contact .meta{
       min-width:0;
       display:flex;
-      flex-direction:column;
-      gap:4px;
       width: 100%;
     }
     .contact .meta div{font-weight:800; font-size: 13px;}
-    .contact .meta span{
-      color:var(--muted);
-      font-size:11px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-      max-width: 100%;
-    }
 
     .badges{display:flex; flex-wrap:wrap; gap:9px}
     .badge{
@@ -741,7 +735,6 @@
                   </div>
                   <div class="meta">
                     <div>WhatsApp</div>
-                    <span>+55 51 98485-0955</span>
                   </div>
                 </a>
 
@@ -751,7 +744,6 @@
                   </div>
                   <div class="meta">
                     <div>Email</div>
-                    <span>danieldosantosferreira@gmail.com</span>
                   </div>
                 </a>
 
@@ -761,7 +753,6 @@
                   </div>
                   <div class="meta">
                     <div>LinkedIn</div>
-                    <span>/in/daniel-ferreira</span>
                   </div>
                 </a>
 
@@ -771,7 +762,6 @@
                   </div>
                   <div class="meta">
                     <div>GitHub</div>
-                    <span>github.com/danieldosantos</span>
                   </div>
                 </a>
               </div>
