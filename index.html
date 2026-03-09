@@ -291,6 +291,9 @@
       scroll-behavior:smooth;
       padding-bottom:6px;
       scrollbar-width:thin;
+      -webkit-overflow-scrolling:touch;
+      touch-action: pan-x;
+      overscroll-behavior-x: contain;
       margin:0;
       padding-left:0;
       list-style:none;
@@ -1003,8 +1006,20 @@
     const scrollCarousel = (id, direction) => {
       const el = document.getElementById(id);
       if (!el) return;
-      const step = Math.max(el.clientWidth * 0.85, 260);
-      el.scrollBy({ left: step * direction, behavior: 'smooth' });
+
+      const step = Math.max(el.clientWidth * 0.85, 260) * direction;
+      const supportsSmooth = 'scrollBehavior' in document.documentElement.style;
+
+      if (typeof el.scrollBy === 'function') {
+        if (supportsSmooth) {
+          el.scrollBy({ left: step, behavior: 'smooth' });
+          return;
+        }
+        el.scrollBy(step, 0);
+        return;
+      }
+
+      el.scrollLeft += step;
     };
 
     document.querySelectorAll('[data-carousel-prev]').forEach((button) => {
