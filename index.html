@@ -488,6 +488,36 @@
       object-fit: cover;
       border-bottom:1px solid var(--dash);
     }
+    .project-gallery{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border-bottom:1px solid var(--dash);
+    }
+    .project-gallery img{
+      width:100%;
+      display:block;
+      max-height:220px;
+      object-fit:cover;
+      border-bottom:0;
+      border-right:1px solid var(--dash);
+    }
+    .project-gallery img:last-child{
+      border-right:0;
+    }
+    @media (max-width: 700px){
+      .project-gallery{
+        grid-template-columns: 1fr;
+      }
+      .project-gallery img{
+        max-height:260px;
+        border-right:0;
+        border-bottom:1px solid var(--dash);
+      }
+      .project-gallery img:last-child{
+        border-bottom:0;
+      }
+    }
     .project-card .card-body{
       padding:16px;
     }
@@ -741,6 +771,28 @@
                       <br/><br/>
                       O sistema reduz o tempo de atendimento, diminui erros operacionais e permite automatizar interações logísticas
                       diretamente no WhatsApp, mantendo uma experiência rápida e profissional para motoristas e parceiros.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="project-card" aria-label="Projeto de monitoramento com Docker, Zabbix e Grafana">
+                  <div class="project-gallery">
+                    <img src="Docker-grafana.jpg" alt="Ambiente Docker com Zabbix e Grafana" />
+                    <img src="dashboard-1.jpg" alt="Dashboard de monitoramento no Grafana - visão 1" />
+                    <img src="dashboard-2.jpg" alt="Dashboard de monitoramento no Grafana - visão 2" />
+                  </div>
+                  <div class="card-body">
+                    <strong>Projeto — Ambiente de Monitoramento com Docker, Zabbix e Grafana</strong>
+                    <small>
+                      Implementei um ambiente de monitoramento de infraestrutura utilizando containers Docker.
+                      A solução integra Zabbix Server para coleta de métricas, PostgreSQL como banco de dados,
+                      Zabbix Web para gerenciamento e Grafana para criação de dashboards e visualização das métricas em tempo real.
+                      <br/><br/>
+                      O ambiente permite monitorar uso de CPU, disco, rede, serviços e eventos do sistema,
+                      além de gerar alertas automáticos quando determinados limites são atingidos.
+                      <br/><br/>
+                      O gerenciamento dos containers e stacks é realizado através do Portainer,
+                      facilitando a administração do ambiente e a visualização do estado dos serviços.
                     </small>
                   </div>
                 </div>
